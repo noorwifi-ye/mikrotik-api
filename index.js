@@ -20,11 +20,16 @@ app.post('/api/check-network', async (req, res) => {
         console.log(`جاري فحص: ${url}`);
 
         // استخدام متصفح كروم المثبت في جهازك الويندوز
-        browser = await puppeteer.launch({
-            headless: "new",
-            executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
+       // استبدل الجزء الخاص بالـ launch في index.js بهذا الكود:
+       browser = await puppeteer.launch({
+           headless: "new",
+           args: [
+               '--no-sandbox',
+               '--disable-setuid-sandbox',
+               '--disable-dev-shm-usage', // مهم جداً للاستضافات السحابية
+               '--disable-gpu'            // لمنع أخطاء كرت الشاشة
+           ]
+       });
 
         const page = await browser.newPage();
 
